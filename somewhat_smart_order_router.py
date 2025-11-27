@@ -45,7 +45,7 @@ def best_price_improvement(
         ask_price:      float,
         bid_size:       int,
         ask_size:       int,
-) -> str:
+) -> tuple[str, float]:
     """Return the exchange with the highest predicted price improvement.
 
     The features passed here must match those used when training the models
@@ -80,9 +80,9 @@ def best_price_improvement(
 
     features = pd.DataFrame(
         {
-            "side_num": [side_num],
-            "OrderQty": [quantity],
-            "LimitPrice": [limit_price],
+            "side": [side_num],
+            "order_qty": [quantity],
+            "limit_price": [limit_price],
             "bid_price": [bid_price],
             "ask_price": [ask_price],
             "bid_size": [bid_size],
@@ -105,4 +105,4 @@ def best_price_improvement(
     if best_exchange is None:
         raise RuntimeError("No valid prediction could be made.")
 
-    return best_exchange
+    return best_exchange, float(best_prediction)
